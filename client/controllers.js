@@ -7,12 +7,16 @@
       $scope.new_activity={};
       $scope.new_glucose={};
 
-      console.log('got into dashboard controller');
+      //console.log('got into dashboard controller');
       
       gmFactory.getUser(function(data){
         $scope.user = data;
       })
 
+      gmFactory.loginUser(function(data){
+        $scope.user = data;
+      })
+      
       gmFactory.getGlucoseData(function(data){
         console.log('dashboard controller: get the glucose data');
         $scope.glucose_recs = data;
@@ -45,3 +49,25 @@
           })
       }
     })
+
+appModule.controller('dataController', function($scope, gmFactory){
+
+    $scope.user;
+    $scope.glucose_recs=[];
+    $scope.activity_recs=[];
+    $scope.edit_activity={};
+    $scope.edit_glucose={};
+
+    gmFactory.getUser(function(data){
+      $scope.user = data;
+    })
+
+    gmFactory.getGlucoseData(function(data){
+      $scope.glucose_recs = data;
+    })
+
+     gmFactory.getActivityData(function(data){
+      $scope.activity_recs = data;
+    })
+
+})

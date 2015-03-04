@@ -6,6 +6,12 @@ var transactions = require('./../server/controllers/transactions.js');
 
  // We will have to require this in the server.js file (and pass it app!)
 module.exports = function(app) {
+
+	app.get('/activity', function(req, res){
+		console.log('routes: get activity data');
+		transactions.show_activity(req, res);
+	}),
+
 	app.post('/user', function(req, res) {
 		console.log('got into user route');
 	  	transactions.get_user(req, res);
@@ -23,10 +29,9 @@ module.exports = function(app) {
 		transactions.add_activity(req, res);
 	}),
 
-	app.get('/customers/:id', function(req, res){
-		console.log('routes: got get to delete customer');
-		console.log(req.params.id);
-		transactions.delete_customer(req, res);
+	app.get('/glucose', function(req, res){
+		console.log('routes: get glucose data');
+		transactions.show_glucose(req, res);
 	}),
 
 	app.post('/customers/edit', function(req, res){

@@ -85,6 +85,10 @@
         }
 
         factory.getUser = function (callback){
+          callback(user);
+        }
+
+        factory.loginUser = function (callback){
           var user_email = prompt('Please enter your e-mail address', 'cecilia_lyon@sbcglobal.net');
           data = ({email: user_email});
            $http.post('/user', data).success(function(output){
@@ -101,13 +105,25 @@
 
         factory.getGlucoseData = function(callback){
           //console.log('factory: time to read data from the database');
-          callback(glucose_recs);
+          $http.get('/glucose').success(function(output) {
+              console.log('successfully got glucose data')
+              console.log(output);
+              glucose_recs = output;
+              callback(glucose_recs);
+          })
         }
 
 
-        factory.getProducts = function (callback){
-              callback(products);
+        factory.getActivityData = function(callback){
+          //console.log('factory: time to read data from the database');
+          $http.get('/activity').success(function(output) {
+              console.log('successfully got activity data')
+              console.log(output);
+              activity_recs = output;
+              callback(activity_recs);
+          })
         }
+
 
         factory.getQuantities = function (callback){
               callback(quantity);

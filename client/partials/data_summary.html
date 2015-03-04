@@ -1,13 +1,4 @@
 <head>
-  <title></title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> 
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"/></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script>
-  <script type='text/javascript' src='./script.js'></script>
-
- 
 </head>
 
 <style>
@@ -16,10 +7,10 @@
 					margin-bottom: 20px;}
 </style>
 <body>
-	    <div class="container">
+	    <div class="container" ng-controller='dataController'>
 			<div class="blog-masthead">
 				<div class="row">
-					  <div class="col-md-7"></div>
+					  <div class="col-md-7"><p>Welcome <span ng-bind='user.alias'></span></p></div>
 					  <div class="col-md-5">
 							<nav class="blog-nav">
 					          <a class="blog-nav-item active" href="#/"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>Dashboard</a>
@@ -37,16 +28,20 @@
 				  			<legend>GlucoseLevels</legend>
 					  			<table class="table table-striped table-bordered">
 					  				<thead>
-					  					<th>Date</th>
-					  					<th>Time</th>
-					  					<th>Meal Type</th>
-					  					<th>Glucose Level</th>
+					  					<tr>
+						  					<th>Date</th>
+						  					<th>Time</th>
+						  					<th>Meal Type</th>
+						  					<th>Glucose Level</th>
+					  					<tr>
 					  				</thead>
 					  				<tbody>
-					  					<td><a>2/13/2104</a></td>
-					  					<td>8:15 AM</td>
-					  					<td>Fasting</td>
-					  					<td>84</td>
+					  					<tr ng-repeat='record in glucose_recs'>
+						  					<td><a><span ng-bind='record.datetime | date: "MMMM d, yyyy"'></span></a></td>
+											<td><span ng-bind='record.datetime | date: "h:mm a"'></span></td>
+						  					<td><span ng-bind='record.meal_type'></span></td>
+						  					<td><span ng-bind='record.level'></span></td>
+					  					<tr>
 					  				</tbody>
 								</table>
 				  		</fieldset>
@@ -56,16 +51,20 @@
 				  			<legend>Exercise Entries</legend>
 				  				<table class="table table-striped table-bordered">
 					  				<thead>
-					  					<th>Date</th>
-					  					<th>Activity</th>
-					  					<th>Duration</th>
-					  					<th>Intensity</th>
+					  					<tr>
+						  					<th>Date</th>
+						  					<th>Activity</th>
+						  					<th>Duration</th>
+						  					<th>Intensity</th>
+					  					</tr>
 					  				</thead>
 					  				<tbody>
-					  					<td><a>2/13/2104</a></td>
-					  					<td>Yoga</td>
-					  					<td>60</td>
-					  					<td>Low</td>
+					  					<tr ng-repeat='activity in activity_recs'>
+						  					<td><a><span ng-bind='activity.datetime | date:"MMMM d, yyyy"'></span></a></td>
+						  					<td><span ng-bind='activity.activity'></span></td>
+						  					<td><span ng-bind='activity.duration'></span></td>
+						  					<td><span ng-bind='activity.intensity'></span></td>
+					  					</tr>
 					  				</tbody>
 								</table>
 				  		</fieldset>

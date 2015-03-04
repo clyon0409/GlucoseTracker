@@ -57,8 +57,19 @@ module.exports = (function() {
   		});
   	},
 
-    show_customers: function(req, res) {
-      Customer.find({}, function(err, results) {
+	show_activity: function(req, res) {
+      Activity.find({}, function(err, results) {
+		    if(err) {
+		      console.log(err);
+		    } else {
+		    	//console.log(results);
+		      	res.json(results);
+		    }
+	  })
+  	},
+
+    show_glucose: function(req, res) {
+      GlucoseLevel.find({}, function(err, results) {
 		    if(err) {
 		      console.log(err);
 		    } else {
