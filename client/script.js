@@ -7,7 +7,7 @@
 
     //  inject the ngRoute dependency in the module.
     //var appModule = angular.module('myApp', ['ngRoute', 'highcharts-ng']);
-    var appModule = angular.module('myApp', ['ngRoute']);
+    var appModule = angular.module('myApp', ['ngRoute', 'ngDialog', 'highcharts-ng']);
     
     //  use the config method to set up routing:
     appModule.config(function ($routeProvider) {
@@ -28,12 +28,18 @@
 
     // add a factory to the module
     appModule.factory('gmFactory', function ($http){
+
+        var factory = {};
         // this local data holds all the glucose readings from the database
         // on start up, the app will ask for the last 30 days by default
-        // if the user sets up custom trends, the array will expand to hold all
-        // data for all requested data
 
         var glucose_recs = [];
+
+        // this local data holds all the glucose readings from the database
+        // for a user specified time span.  It will be initialized to the same
+        // time span as dashboard data,but can be changed on the trends page
+
+        var glucose_trends = glucose_recs;
 
         // this local data holds all the activity readings for the last 30 days,
         // by default, but will expand to hold all data requested to populate the
@@ -45,9 +51,14 @@
         // for now, it will be populated via a prompt on start-up
         // to-do: populate with info from the database
 
+        // the variables below are used to pass data between the data controller and the 
+        // controller for the modal dialogs
+
+        var edit_glucose = {};
+        var edit_activity = {};
         var user = {};
 
-        var factory = {};
+
 
         console.log('got into factory');
 
@@ -113,6 +124,26 @@
           })
         }
 
+        factory.getGlucoseForSpan = function(span, callback){
+              $http.post('/get_trend_data', span).success(function(output){
+                if(output.error == 'factory: could get glucose data for specified time span'){
+                  alert('could not find glucose data');
+                }else{
+                  console.log('factory: got glucose data for time span');
+                  //console.log(output);
+                  glucose_trends = output;
+                  callback(glucose_trends);
+                }
+              });
+        }
+
+        factory.getEditGlucoseData = function(callback){
+              console.log('factory: edit_glucose = ');
+              console.log(edit_glucose);
+              callback(edit_glucose);
+        }
+        
+
 
         factory.getActivityData = function(callback){
           //console.log('factory: time to read data from the database');
@@ -129,26 +160,17 @@
               callback(quantity);
         }
 
-        factory.addCustomer = function (data, callback){
-          $http.post('/customers/add', data).success(function(output){
-              console.log('factory: successfully added a customer');
-              customers.push(output[0]);
-              //console.log(customers);
-              callback(customers);
-            });
+        factory.saveGlucoseEditData = function (data, callback){
+            console.log('factory: got into save edit glucose data');
+            edit_glucose = data;
+            callback(edit_glucose);
         }
 
-        factory.editCustomer = function(customer, callback){
-          var new_name = prompt("Please enter the new name");
-          var data = ({id: customer._id, name: new_name});
-          $http.post('/customers/edit', data).success(function(output) {
-              console.log('successfully updated customer name');
-              console.log(output);
-              console.log(customers.indexOf(customer));
-              customers[customers.indexOf(customer)].name = new_name;
-              callback(customers);
-          })
+        factory.updateGlucose = function(rec){
+            console.log('factoryL got into updateGlucose, data to update: ')
+            console.log(rec);
         }
+        
 
         factory.removeCustomer = function (customer, callback){
           $http.get('/customers/'+customer._id).success(function(output) {
@@ -159,27 +181,6 @@
           })
         }
 
-      factory.getOrders = function (callback){
-             $http.get('/orders').success(function(output) {
-              orders = output;
-              callback(orders);
-          }) 
-      }
-
-      factory.placeOrder = function(order, callback){
-            $http.post('/orders/add', order).success(function(output){
-              console.log('factory: successfully added an order');
-              console.log(output);
-              if (output.status == 'error'){
-                console.log(output.errors);
-                alert('order could not be placed due to missing fields');
-                callback(orders);
-              }else{
-                orders.push(output);
-                callback(orders);
-              }
-            })
-      }
       // most important step: return the object so it can be used by the rest of our angular code
        return factory
     });

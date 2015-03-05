@@ -1,13 +1,5 @@
 <head>
   <title></title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> 
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"/></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script>
-  <script type='text/javascript' src='./script.js'></script>
-
- 
 </head>
 
 <style>
@@ -17,10 +9,12 @@
 
 </style>
 <body>
-	    <div class="container">
+	    <div class="container" ng-controller='trendsController'>
 			<div class="blog-masthead">
 				<div class="row">
-					  <div class="col-md-7"></div>
+					  <div class="col-md-7">
+							<div class="col-md-7"><p>Welcome <span ng-bind='user.alias'></span></p></div>
+					  </div>
 					  <div class="col-md-5">
 							<nav class="blog-nav">
 					          <a class="blog-nav-item active" href="#/dashboard"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>Dashboard</a>
@@ -39,20 +33,21 @@
 						      <div class="col-xs-8 col-sm-4">
 						        <div "form-group form-group-sm">
 								    <label for="exampleInputName2">Start Date</label>
-								    <input type="date" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+								    <input type="date" class="form-control" ng-model='span.start'>
 								</div>
 						      </div>
 						      <div class="col-xs-4 col-sm-4">
 						        <div "form-group form-group-sm">
 								    <label for="exampleInputEmail2">End Date</label>
-								    <input type="date" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
+								    <input type="date" class="form-control" ng-model='span.end'>
 								</div>
 						      </div>
 						      <div class="col-xs-8 col-sm-4">
-						        <button type="submit" class="btn btn-primary btn-xs">Chart</button>
+						        <button type="submit" class="btn btn-primary btn-xs" ng-click='updateChart()'>Chart</button>
 						      </div>
 						    </div>							  
 						</form>
+						<highchart id="chart1" config="chartConfig"></highchart>
 				  </div>
 				  <div class="col-xs-6 col-md-3">
 				  		<fieldset>

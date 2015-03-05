@@ -1,0 +1,52 @@
+<html>
+</head>
+<style>
+	body {padding:60px;}
+</style>
+<body>
+	<div class='container' ng-controller='dataController' >
+		<div class="row">
+			  <div class="col-md-4"></div>
+			  <div class="col-md-4">
+					<form>
+					  <div class="form-group">
+					    <label for="exampleInputEmail1">Date</label>
+					    <input type="text" class="form-control" ng-model='edit_glucose.datetime | date: "MM/dd/yyyy"'> 
+					  </div>
+					  <div class="form-group">
+					    <label for="exampleInputPassword1">Time</label>
+					    <input type="text" class="form-control" ng-model='edit_glucose.datetime | time: "h:mm a"'>
+					  </div>
+					  <div class="form-group">
+					    <label for="exampleInputPassword1">Meal Type</label>
+					    <select ng-model='edit_glucose.meal_type'>
+					    	<option>Fasting</option>
+					    	<option>Breakfast</option>
+					    	<option>Lunch</option>
+					    	<option>Dinner</option>
+					    	<option>Mid-morning Snack</option>
+					    	<option>Mid-afternoon Snack</option>
+					    </select>
+					  </div>
+					  <div class="form-group">
+					    <label for="exampleInputPassword1">Glucose Level</label>
+					    <input type="input" class="form-control" ng-model='edit_glucose.level'>
+					  </div>
+					  <div class="row">
+					  	  <div class="col-xs-8 col-sm-6"></div>
+					      <div class="col-xs-8 col-sm-3">
+					        <button type="submit" class="btn btn-primary" ng-click='updateGlucose(edit_glucose)'>Submit</button>
+					      </div>
+					      <div class="col-xs-4 col-sm-3">
+					        <button type="submit" class="btn btn-default"><a ng-click='resetUpdateGlucose()'>Reset</a></button>
+					      </div>
+					  </div>
+					</form>
+			  </div>
+			  <div class="col-md-4"></div>
+		</div>
+		
+			  
+	</div>
+</body>
+</html>

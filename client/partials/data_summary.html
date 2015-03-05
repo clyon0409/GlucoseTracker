@@ -37,7 +37,7 @@
 					  				</thead>
 					  				<tbody>
 					  					<tr ng-repeat='record in glucose_recs'>
-						  					<td><a><span ng-bind='record.datetime | date: "MMMM d, yyyy"'></span></a></td>
+						  					<td><a ng-click='editGlucose(record)'><span ng-bind='record.datetime | date: "MMMM d, yyyy"'></span></a></td>
 											<td><span ng-bind='record.datetime | date: "h:mm a"'></span></td>
 						  					<td><span ng-bind='record.meal_type'></span></td>
 						  					<td><span ng-bind='record.level'></span></td>

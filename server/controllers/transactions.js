@@ -69,14 +69,25 @@ module.exports = (function() {
   	},
 
     show_glucose: function(req, res) {
-      GlucoseLevel.find({}, function(err, results) {
+      GlucoseLevel.find({}).sort({datetime: 'asc'}).exec(function(err, results) {
 		    if(err) {
 		      console.log(err);
 		    } else {
 		    	//console.log(results);
 		      	res.json(results);
 		    }
-	  })
+	  });
+  	},
+
+  	show_glucose_for_timepan: function(req, res) {
+      GlucoseLevel.find({'datetime': {'$gte':req.body.start, '$lt':req.body.end}}).sort({datetime: 'asc'}).exec(function(err, results) {
+		    if(err) {
+		      console.log(err);
+		    } else {
+		    	console.log(results);
+		      	res.json(results);
+		    }
+	  });
   	},
 
 	add_customer: function(req, res){

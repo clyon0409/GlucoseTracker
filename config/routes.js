@@ -29,6 +29,12 @@ module.exports = function(app) {
 		transactions.add_activity(req, res);
 	}),
 
+	app.post('/get_trend_data', function(req, res){
+		console.log('routes: get the data for a specified time span');
+		console.log(req.body);
+		transactions.show_glucose_for_timepan(req, res);
+	}),
+
 	app.get('/glucose', function(req, res){
 		console.log('routes: get glucose data');
 		transactions.show_glucose(req, res);
